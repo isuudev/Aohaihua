@@ -70,10 +70,16 @@ const CodeBlock: FC<Props> = memo(({ language, value }) => {
     link.download = fileName
     link.href = url
     link.style.display = 'none'
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-    URL.revokeObjectURL(url)
+    
+    try {
+      document.body.appendChild(link)
+      link.click()
+    } finally {
+      if (link.parentNode) {
+        link.parentNode.removeChild(link)
+      }
+      URL.revokeObjectURL(url)
+    }
   }
 
   const onCopy = () => {
@@ -121,9 +127,6 @@ const CodeBlock: FC<Props> = memo(({ language, value }) => {
           background: 'transparent',
           padding: '1.5rem 1rem'
         }}
-        lineNumberStyle={{
-          userSelect: 'none'
-        }}
         codeTagProps={{
           style: {
             fontSize: '0.9rem',
@@ -138,4 +141,4 @@ const CodeBlock: FC<Props> = memo(({ language, value }) => {
 })
 CodeBlock.displayName = 'CodeBlock'
 
-export { CodeBlock }
+export default CodeBlock
