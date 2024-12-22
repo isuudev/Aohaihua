@@ -1,24 +1,27 @@
+'use client'
+
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
 
 const exampleMessages = [
   {
-    heading: 'What is OpenAI o1?',
-    message: 'What is OpenAI o1?'
+    heading: 'Looking for IT-related jobs in Sydney',
+    message: 'Looking for IT-related jobs in Sydney'
   },
   {
-    heading: 'Why is Nvidia growing rapidly?',
-    message: 'Why is Nvidia growing rapidly?'
+    heading: 'Renting a whole house in Box Hill, Melbourne',
+    message: 'Renting a whole house in Box Hill, Melbourne'
   },
   {
-    heading: 'Tesla vs Rivian',
-    message: 'Tesla vs Rivian'
+    heading: 'Finding an apartment near UNSW in Sydney',
+    message: 'Finding an apartment near UNSW in Sydney'
   },
   {
-    heading: 'Summary: https://arxiv.org/pdf/2407.16833',
-    message: 'Summary: https://arxiv.org/pdf/2407.16833'
+    heading: 'Looking for a quantity surveying job in Melbourne',
+    message: 'Looking for a quantity surveying job in Melbourne'
   }
 ]
+
 export function EmptyScreen({
   submitMessage,
   className

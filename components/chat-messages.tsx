@@ -11,7 +11,7 @@ interface ChatMessagesProps {
 type GroupedMessage = {
   id: string
   components: React.ReactNode[]
-  isCollapsed?: StreamableValue<boolean> | undefined
+  isCollapsed?: StreamableValue<boolean>
 }
 
 export function ChatMessages({ messages }: ChatMessagesProps) {
@@ -19,7 +19,7 @@ export function ChatMessages({ messages }: ChatMessagesProps) {
     return null
   }
 
-  // Group messages based on ID, and if there are multiple messages with the same ID, combine them into one message
+  // Group messages based on ID
   const groupedMessages = messages.reduce(
     (acc: { [key: string]: GroupedMessage }, message) => {
       if (!acc[message.id]) {
@@ -35,31 +35,17 @@ export function ChatMessages({ messages }: ChatMessagesProps) {
     {}
   )
 
-  // Convert grouped messages into an array with explicit type
-  const groupedMessagesArray = Object.values(groupedMessages).map(group => ({
-    ...group,
-    components: group.components as React.ReactNode[]
-  })) as {
-    id: string
-    components: React.ReactNode[]
-    isCollapsed?: StreamableValue<boolean>
-  }[]
+  const groupedMessagesArray = Object.values(groupedMessages)
 
   return (
-    <>
-      {groupedMessagesArray.map((groupedMessage: GroupedMessage) => (
+    <div className="space-y-4">
+      {groupedMessagesArray.map((message, index) => (
         <CollapsibleMessage
-          key={`${groupedMessage.id}`}
-          message={{
-            id: groupedMessage.id,
-            component: groupedMessage.components.map((component, i) => (
-              <div key={`${groupedMessage.id}-${i}`}>{component}</div>
-            )),
-            isCollapsed: groupedMessage.isCollapsed
-          }}
-          isLastMessage={groupedMessage.id === messages[messages.length - 1].id}
+          key={message.id}
+          message={message}
+          isLastMessage={index === groupedMessagesArray.length - 1}
         />
       ))}
-    </>
+    </div>
   )
 }

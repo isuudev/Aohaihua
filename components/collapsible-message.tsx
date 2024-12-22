@@ -16,7 +16,7 @@ interface CollapsibleMessageProps {
   message: {
     id: string
     isCollapsed?: StreamableValue<boolean>
-    component: React.ReactNode
+    components: React.ReactNode[]
   }
   isLastMessage?: boolean
 }
@@ -30,46 +30,43 @@ export const CollapsibleMessage: React.FC<CollapsibleMessageProps> = ({
   const [open, setOpen] = useState(isLastMessage)
 
   useEffect(() => {
-    setOpen(isLastMessage)
-  }, [isCollapsed, isLastMessage])
+    if (isLastMessage && !open) {
+      setOpen(true)
+    }
+  }, [isLastMessage, open])
 
-  // if not collapsed, return the component
-  if (!isCollapsed) {
-    return message.component
+  if (!isCollapsed || !message.components?.length) {
+    return <>{message.components}</>
   }
 
   return (
     <Collapsible
       open={open}
-      onOpenChange={value => {
-        setOpen(value)
-      }}
+      onOpenChange={setOpen}
     >
       <CollapsibleTrigger asChild>
-        <div
-          className={cn(
-            'w-full flex justify-end',
-            !isCollapsed ? 'hidden' : ''
-          )}
-        >
+        <div className={cn('w-full flex justify-end', !open && 'mb-4')}>
           <Button
             variant="ghost"
-            size={'icon'}
-            className={cn('-mt-3 rounded-full')}
+            size="sm"
+            className="h-auto p-0 hover:bg-transparent"
           >
             <ChevronDown
-              size={14}
               className={cn(
-                open ? 'rotate-180' : 'rotate-0',
-                'h-4 w-4 transition-all'
+                'ml-2 h-4 w-4 text-zinc-400 transition-transform',
+                open && 'rotate-180'
               )}
             />
-            <span className="sr-only">collapse</span>
+            <span className="sr-only">Toggle message</span>
           </Button>
         </div>
       </CollapsibleTrigger>
-      <CollapsibleContent>{message.component}</CollapsibleContent>
-      {!open && <Separator className="my-2 bg-muted" />}
+      <CollapsibleContent>
+        <div className="pb-4">
+          {message.components}
+        </div>
+      </CollapsibleContent>
+      {!isLastMessage && <Separator className="my-4" />}
     </Collapsible>
   )
 }

@@ -14,12 +14,12 @@ const fontSans = FontSans({
   variable: '--font-sans'
 })
 
-const title = 'Morphic'
+const title = 'Aohaihua'
 const description =
-  'A fully open-source AI-powered answer engine with a generative UI.'
+  'A next-generation AI-powered search engine with intelligent analysis capabilities.'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://morphic.sh'),
+  metadataBase: new URL('https://aohaihua.com'),
   title,
   description,
   openGraph: {
